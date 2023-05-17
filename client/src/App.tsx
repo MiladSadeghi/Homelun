@@ -1,5 +1,13 @@
+import Footer from "./components/Footer/Footer";
+import Navbar from "./components/Navbar";
+
 function App() {
-  return <h1 tw="text-lg">test</h1>;
+  return (
+    <>
+      <Navbar />
+      <Footer />
+    </>
+  );
 }
 
 export default App;

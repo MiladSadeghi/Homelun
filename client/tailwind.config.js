@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mulish: ["Mulish", "sans-serif"],
+        Mulish: ["Mulish", "sans-serif"],
       },
       colors: {
         green: {

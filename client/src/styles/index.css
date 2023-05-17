@@ -4,9 +4,12 @@
 
 @layer base {
   @font-face {
-    font-family: 'Mulish-VariableFont_wght';
+    font-family: "Mulish-VariableFont_wght";
     src: url("/src/styles/Mulish-VariableFont_wght.woff2") format("woff2");
     font-display: swap;
     font-weight: 100 1000;
+  }
+  html {
+    font-family: Mulish, system-ui, sans-serif;
   }
 }
