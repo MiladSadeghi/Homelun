@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        Mulish: ["Mulish", "sans-serif"],
+        Mulish: ["Mulish-VariableFont_wght", "sans-serif"],
       },
       colors: {
         green: {
@@ -29,7 +29,13 @@ export default {
           500: "#2C3C4D",
         },
       },
+      backgroundImage: {
+        "header-img": "url('/src/assets/header-apartment.png')",
+      },
     },
+  },
+  corePlugins: {
+    aspectRatio: false,
   },
   plugins: [],
 };

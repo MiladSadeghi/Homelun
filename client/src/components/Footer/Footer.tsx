@@ -1,5 +1,5 @@
 import tw from "twin.macro";
-import Apartment from "../../assest/footer-apartemant.png";
+import Apartment from "../../assets/footer-apartemant.png";
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";

@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 import tw from "twin.macro";
 function Navbar() {
   return (
-    <nav className="absolute top-0 left-0 w-full">
+    <nav className="absolute top-0 left-0 w-full z-10">
       <div className="container mx-auto mt-7">
         <div className="relative flex h-14 items-center justify-between">
           <Logo textColor="text-gray-500" />
