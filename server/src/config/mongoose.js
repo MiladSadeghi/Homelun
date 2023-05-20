@@ -15,9 +15,9 @@ if (process.env.NODE_ENV === "development") {
 export const connect = () => {
   mongoose
     .connect(process.env.MONGO_URI, {
-      keepAlive: 1,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      dbName: process.env.DB_NAME,
     })
     .then(() => console.log("mongoDB connected..."));
   return mongoose.connection;

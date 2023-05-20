@@ -5,6 +5,8 @@ import cors from "cors";
 import helmet from "helmet";
 import routes from "../api/routes/index.js";
 import { converter, notFound, handler } from "../api/middleware/error.js";
+import homeRoute from "../api/routes/home.route.js";
+import { corsOptions } from "./corsConfig.js";
 
 const app = express();
 
@@ -19,10 +21,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+app.use(cors(corsOptions));
 
 // mount api
 app.use("/api", routes);
+app.use("/api/home", homeRoute);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(converter);
