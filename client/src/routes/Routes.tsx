@@ -1,8 +1,9 @@
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
-import Layout from "../components/Layout/Layout";
+import Layout from "../components/Layout";
 import Home from "./Home";
-import AboutUs from "./About Us/AboutUs";
+import AboutUs from "./About Us";
+import Agents from "./Agents";
 
 function Routes() {
   const location = useLocation();
@@ -13,6 +14,7 @@ function Routes() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about-us" element={<AboutUs />} />
+          <Route path="agents" element={<Agents />} />
         </Route>
       </RouterRoutes>
     </AnimatePresence>

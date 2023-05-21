@@ -5,8 +5,8 @@ const AgentCardSkeleton = ({ cards }: { cards: number }): JSX.Element => {
       {Array(cards)
         .fill(0)
         .map((_, i) => (
-          <div className="relative" key={i}>
-            <div className="before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border before:border-solid before:border-[#e3e3e3] before:mt-24 before:-z-10">
+          <div className="relative h-[460px]" key={i}>
+            <div className="before:absolute before:top-0 before:left-0 before:w-full before:h-[80%] before:border before:border-solid before:border-[#e3e3e3] before:mt-[92px] before:-z-10">
               <Skeleton
                 containerClassName="mx-auto !w-[248px] h-[248px] mx-auto block"
                 className="w-full h-full"

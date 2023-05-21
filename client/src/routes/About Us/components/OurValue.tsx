@@ -52,7 +52,7 @@ const OurValue = () => {
   return (
     <div className="mt-40">
       <div className="flex flex-col justify-center items-center">
-        <h3 className="text-[40px] font-bold mb-5 text-gray-500">OurValue</h3>
+        <h3 className="text-[40px] font-bold mb-5 text-gray-500">Our Value</h3>
         <p className="font-normal text-xl text-[#888888] w-1/2 text-center">
           We provide a complete service for the sale, purchase or rental of real
           estate. We provide a complete We provide a complete service for the
