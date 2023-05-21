@@ -5,7 +5,7 @@ import axios from "axios";
 import { TAgent } from "../../types/agent";
 import { TProperty } from "../../types/property";
 import LatestProperty from "./components/LatestProperty";
-import Agents from "./components/Agents";
+import OurTeam from "../../components/OurTeam/OutTeam";
 
 type THomeData = {
   agents: {
@@ -38,7 +38,7 @@ function Home() {
           data?.properties as Pick<THomeData["properties"], "rent" | "sale">
         }
       />
-      <Agents loading={isLoading} agents={data?.agents.agents as TAgent[]} />
+      <OurTeam loading={isLoading} agents={data?.agents.agents as TAgent[]} />
     </>
   );
 }

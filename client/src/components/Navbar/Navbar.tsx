@@ -9,7 +9,7 @@ function Navbar() {
         <div className="relative flex h-14 items-center justify-between">
           <Logo textColor="text-gray-500" />
           <div tw="flex items-center h-full [&:nth-child(-n+3)]:mr-10">
-            <NavLink to="#">Home</NavLink>
+            <NavLink to="/">Home</NavLink>
             <NavLink to="/about-us">About Us</NavLink>
             <NavLink to="/listings">Listings</NavLink>
             <NavLink to="/agents">Agents</NavLink>
