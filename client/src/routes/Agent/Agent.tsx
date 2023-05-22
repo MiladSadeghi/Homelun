@@ -26,7 +26,7 @@ const Agent = () => {
   });
 
   const getAgentProperties = useQuery({
-    queryKey: ["property", { agent: getAgent.data?._id }],
+    queryKey: ["properties", { agentName: getAgent.data?.name }],
     queryFn: () =>
       axios
         .get<{ error: boolean; properties: TProperty[] }>(
@@ -107,25 +107,27 @@ const Agent = () => {
                 </>
               )}
               {tab === "Active listing" && (
-                <div className="grid grid-cols-3 gap-4">
-                  {getAgentProperties.isLoading && (
-                    <PropertySkeleton cards={6} />
-                  )}
-                  {getAgentProperties.data &&
-                    getAgentProperties.data.map((property: TProperty) => (
-                      <PropertyCard key={property._id} property={property} />
-                    ))}
+                <>
+                  <div className="grid grid-cols-3 gap-4">
+                    {getAgentProperties.isLoading && (
+                      <PropertySkeleton cards={6} />
+                    )}
+                    {getAgentProperties.data &&
+                      getAgentProperties.data.map((property: TProperty) => (
+                        <PropertyCard key={property._id} property={property} />
+                      ))}
+                  </div>
                   {getAgentProperties.isError && (
-                    <p className="font-bold text-9xl text-[#8C959F]">
+                    <p className="font-bold text-7xl text-[#8C959F] text-center">
                       Please refresh the page
                     </p>
                   )}
                   {getAgentProperties.data?.length === 0 && (
-                    <p className="font-bold text-9xl text-[#8C959F]">
+                    <p className="font-bold text-7xl text-[#8C959F] text-center">
                       getAgentProperties
                     </p>
                   )}
-                </div>
+                </>
               )}
             </div>
           </div>
