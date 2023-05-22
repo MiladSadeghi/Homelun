@@ -7,6 +7,7 @@ import { converter, notFound, handler } from "../api/middleware/error.js";
 import homeRoute from "../api/routes/home.route.js";
 import { corsOptions } from "./corsConfig.js";
 import agents from "../api/routes/agents.route.js";
+import properties from "../api/routes/properties.route.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(cors(corsOptions));
 app.use("/api/status", (req, res) => res.send("OK"));
 app.use("/api/home", homeRoute);
 app.use("/api/agents", agents);
+app.use("/api/properties", properties);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(converter);
