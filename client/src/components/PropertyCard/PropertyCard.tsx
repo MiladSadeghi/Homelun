@@ -9,7 +9,7 @@ type Props = {
   key: string;
 };
 
-const LatestPropertyCard: React.FC<Props> = ({ property }) => {
+const PropertyCard: React.FC<Props> = ({ property }) => {
   return (
     <div>
       <img className="h-72 w-full" src={property.gallery[0].url} />
@@ -45,4 +45,4 @@ const LatestPropertyCard: React.FC<Props> = ({ property }) => {
   );
 };
 
-export { LatestPropertyCard };
+export { PropertyCard };

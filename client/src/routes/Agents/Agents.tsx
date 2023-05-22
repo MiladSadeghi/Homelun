@@ -18,7 +18,6 @@ const Agents = () => {
         .get<{ error: boolean; agents: TAgent[] }>("/agents")
         .then((response) => response.data.agents),
   });
-  console.log(data);
   return (
     <Wrapper>
       <div className="flex flex-col items-center mb-24">

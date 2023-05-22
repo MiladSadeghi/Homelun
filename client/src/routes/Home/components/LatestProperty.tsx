@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import {
-  LatestPropertyCard,
-  LatestPropertySkeleton,
-} from "../../../components/LatestProperty";
+  PropertyCard,
+  PropertySkeleton,
+} from "../../../components/PropertyCard";
 
 type Props = {
   loading: boolean;
@@ -55,10 +55,10 @@ const LatestProperty: React.FC<Props> = ({ loading, properties }) => {
         </Link>
       </div>
       <div tw="mt-[70px] grid grid-cols-3 gap-6">
-        {loading && <LatestPropertySkeleton cards={3} />}
+        {loading && <PropertySkeleton cards={3} />}
         {properties &&
           properties[status].map((property: TProperty) => (
-            <LatestPropertyCard key={property._id} property={property} />
+            <PropertyCard key={property._id} property={property} />
           ))}
       </div>
     </Wrapper>

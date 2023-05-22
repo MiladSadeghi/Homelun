@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 
-const LatestPropertySkeleton = ({ cards }: { cards: number }): JSX.Element => {
+const PropertySkeleton = ({ cards }: { cards: number }): JSX.Element => {
   return (
     <>
       {Array(cards)
@@ -31,4 +31,4 @@ const LatestPropertySkeleton = ({ cards }: { cards: number }): JSX.Element => {
   );
 };
 
-export { LatestPropertySkeleton };
+export { PropertySkeleton };
