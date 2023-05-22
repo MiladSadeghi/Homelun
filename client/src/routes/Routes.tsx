@@ -5,6 +5,7 @@ import Home from "./Home";
 import AboutUs from "./About Us";
 import Agents from "./Agents";
 import ContactUs from "./Contact Us";
+import NotFound from "./NotFound";
 
 function Routes() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function Routes() {
           <Route path="about-us" element={<AboutUs />} />
           <Route path="agents" element={<Agents />} />
           <Route path="contact-us" element={<ContactUs />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </RouterRoutes>
     </AnimatePresence>
