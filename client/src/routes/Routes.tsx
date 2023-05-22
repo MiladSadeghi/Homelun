@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import Home from "./Home";
 import AboutUs from "./About Us";
 import Agents from "./Agents";
+import ContactUs from "./Contact Us";
 
 function Routes() {
   const location = useLocation();
@@ -15,6 +16,7 @@ function Routes() {
           <Route index element={<Home />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="agents" element={<Agents />} />
+          <Route path="contact-us" element={<ContactUs />} />
         </Route>
       </RouterRoutes>
     </AnimatePresence>
