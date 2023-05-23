@@ -8,6 +8,7 @@ import ContactUs from "./Contact Us";
 import NotFound from "./NotFound";
 import Agent from "./Agent";
 import { useEffect } from "react";
+import Faqs from "./Faqs";
 
 function Routes() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function Routes() {
           <Route path="agents" element={<Agents />} />
           <Route path="agents/:slug" element={<Agent />} />
           <Route path="contact-us" element={<ContactUs />} />
+          <Route path="faqs" element={<Faqs />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </RouterRoutes>

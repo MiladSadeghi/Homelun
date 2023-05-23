@@ -11,5 +11,6 @@
   }
   html {
     font-family: Mulish-VariableFont_wght, system-ui, sans-serif;
+    scroll-behavior: smooth;
   }
 }

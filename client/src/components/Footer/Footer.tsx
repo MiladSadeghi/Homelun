@@ -60,7 +60,7 @@ function Footer() {
                 <Link to="/privacy">Privacy</Link>
               </Li>
               <Li>
-                <Link to="/accessability">Accessability</Link>
+                <Link to="/faqs">Faqs</Link>
               </Li>
               <Li>
                 <Link to="/terms">Terms</Link>

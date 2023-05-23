@@ -86,7 +86,7 @@ const TopAgents = ({ loading, data }: Props) => {
           </div>
         </div>
         <div className="w-full relative">
-          <div className="before:-z-10 before:absolute before:right-0 before:top-0 before:h-[80%] before:mt-[143px] before:w-full  before:bg-gradient-to-r before:from-white before:from-10% before:via-[#F6F9FB] before:via-10% before:to-[#F6F9FB] before:to-100% before:rounded-b-full ">
+          <div className="before:-z-10 before:absolute before:right-0 before:top-0 before:h-[81.2%] before:mt-[143px] before:w-full  before:bg-gradient-to-r before:from-white before:from-10% before:via-[#F6F9FB] before:via-10% before:to-[#F6F9FB] before:to-100% before:rounded-b-full ">
             <div tw="absolute top-0 left-0 w-5/12 h-max bg-white p-4 shadow-sm">
               <p tw="text-lg font-bold text-gray-500 mb-4">Top Agents (2)</p>
               {loading && <TopAgentSkeletonCard cards={2} />}
