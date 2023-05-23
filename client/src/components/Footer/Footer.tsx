@@ -63,7 +63,7 @@ function Footer() {
                 <Link to="/faqs">Faqs</Link>
               </Li>
               <Li>
-                <Link to="/terms">Terms</Link>
+                <Link to="/terms-of-service">Terms</Link>
               </Li>
             </ul>
             <ul>

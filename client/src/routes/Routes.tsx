@@ -9,7 +9,8 @@ import NotFound from "./NotFound";
 import Agent from "./Agent";
 import { useEffect } from "react";
 import Faqs from "./Faqs";
-import Privacy from "./Privacy/Privacy";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 
 function Routes() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function Routes() {
           <Route path="contact-us" element={<ContactUs />} />
           <Route path="faqs" element={<Faqs />} />
           <Route path="privacy" element={<Privacy />} />
+          <Route path="terms-of-service" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </RouterRoutes>

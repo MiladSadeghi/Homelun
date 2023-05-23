@@ -515,7 +515,7 @@ const Privacy = () => {
           <li className="font-extrabold text-xl mb-3">
             HOW WE PROTECT PERSONAL INFORMATION
           </li>
-          <p className="mb-4">
+          <p className="font-normal text-base leading-7 mb-4">
             We maintain administrative, technical and physical safeguards
             designed to protect the personal information we have about you
             against accidental, unlawful or unauthorized destruction, loss,
