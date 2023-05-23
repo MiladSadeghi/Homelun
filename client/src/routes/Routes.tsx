@@ -9,6 +9,7 @@ import NotFound from "./NotFound";
 import Agent from "./Agent";
 import { useEffect } from "react";
 import Faqs from "./Faqs";
+import Privacy from "./Privacy/Privacy";
 
 function Routes() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function Routes() {
           <Route path="agents/:slug" element={<Agent />} />
           <Route path="contact-us" element={<ContactUs />} />
           <Route path="faqs" element={<Faqs />} />
+          <Route path="privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </RouterRoutes>
