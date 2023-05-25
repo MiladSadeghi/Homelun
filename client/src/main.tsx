@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import axios from "axios";
 import "./styles/index.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import axios from "axios";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 axios.defaults.baseURL = `${import.meta.env.VITE_BASE_URL}`;
 

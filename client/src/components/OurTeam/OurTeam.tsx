@@ -9,7 +9,6 @@ type Props = {
 };
 
 const OurTeam = ({ agents, loading }: Props) => {
-  console.log(agents, loading);
   return (
     <Wrapper>
       <div tw="flex mb-[89px]">

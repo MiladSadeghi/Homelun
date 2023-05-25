@@ -31,7 +31,6 @@ const ContactUs = () => {
             </div>
             <textarea
               className="px-5 py-5 border border-[#E3E3E3] w-full outline-none resize-none"
-              readOnly={true}
               placeholder="Your Message"
             />
             <div>

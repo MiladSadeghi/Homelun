@@ -34,7 +34,7 @@ const PropertyCard: React.FC<Props> = ({ property }) => {
           <div>
             <Link
               className="flex items-center font-semibold text-gray-500 text-lg"
-              to={`/properties/${property.slug}`}
+              to={`/listings/${property.slug}`}
             >
               Details <ImArrowRight2 size={15} className="ml-4 stroke-1" />
             </Link>

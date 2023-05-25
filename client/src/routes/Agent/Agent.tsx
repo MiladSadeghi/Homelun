@@ -30,7 +30,7 @@ const Agent = () => {
     queryFn: () =>
       axios
         .get<{ error: boolean; properties: TProperty[] }>(
-          `/properties/${getAgent.data?._id}`
+          `/properties/agent/${getAgent.data?._id}`
         )
         .then((response) => response.data.properties),
     enabled: false,

@@ -32,4 +32,7 @@ export type TProperty = {
   publish: boolean;
   status: "rent" | "buy";
   slug: string;
+  area: number;
+  bedrooms: number;
+  bathrooms: number;
 };

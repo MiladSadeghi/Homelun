@@ -6,7 +6,7 @@ import { ReactSVG } from "react-svg";
 import { useQuery } from "@tanstack/react-query";
 import { TAgent } from "../../../types/agent";
 import axios from "axios";
-import OurTeam from "../../../components/OurTeam/OutTeam";
+import OurTeam from "../../../components/OurTeam/OurTeam";
 
 type TValues = {
   title: string;

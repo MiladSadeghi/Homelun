@@ -5,7 +5,7 @@ import axios from "axios";
 import { TAgent } from "../../types/agent";
 import { TProperty } from "../../types/property";
 import LatestProperty from "./components/LatestProperty";
-import OurTeam from "../../components/OurTeam/OutTeam";
+import OurTeam from "../../components/OurTeam/OurTeam";
 
 type THomeData = {
   agents: {
