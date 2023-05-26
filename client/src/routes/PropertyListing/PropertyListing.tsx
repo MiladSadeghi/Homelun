@@ -25,6 +25,7 @@ const PropertyListing = () => {
     "Overview"
   );
   const [galleryModalOpen, setGalleryModalOpen] = useState<boolean>(false);
+  const [isMapLoaded, setIsMapLoaded] = useState<boolean>(false);
 
   const { isLoading, data, isError } = useQuery({
     queryKey: ["property", { slug }],
@@ -70,6 +71,10 @@ const PropertyListing = () => {
       )
     );
   });
+
+  const handleMapLoad = () => {
+    setIsMapLoaded(true);
+  };
 
   return (
     <div className="relative">
@@ -189,15 +194,23 @@ const PropertyListing = () => {
               </div>
             )}
             {tab === "Location" && (
-              <LoadingIframe
-                skeleton={<Skeleton className="w-full h-[500px]" />}
-                src={`https://www.google.com/maps/embed/v1/place?key=${
-                  import.meta.env.VITE_GOOGLE_MAP_API_KEY
-                }&q=${parseFloat(data?.location.lat as string)},${parseFloat(
-                  data?.location.long as string
-                )}`}
-                className="!w-full !h-[500px]"
-              />
+              <div className="relative">
+                <iframe
+                  src={`https://www.google.com/maps/embed/v1/place?key=${
+                    import.meta.env.VITE_GOOGLE_MAP_API_KEY
+                  }&q=${parseFloat(data?.location.lat as string)},${parseFloat(
+                    data?.location.long as string
+                  )}`}
+                  className="w-full h-[500px]"
+                  onLoad={handleMapLoad}
+                />
+                {!isMapLoaded && (
+                  <Skeleton
+                    containerClassName="absolute -top-1 left-0 z-10 w-full h-[500px]"
+                    className=" w-full h-full"
+                  />
+                )}
+              </div>
             )}
             {tab === "Agent" && (
               <div className="grid grid-cols-2">
@@ -312,5 +325,5 @@ const GalleryModal = styled.div<{ isopen: string }>`
 `;
 
 const Input = tw.input`px-5 py-5 border border-[#E3E3E3] outline-none`;
-const Button = tw.button`w-full text-base font-semibold text-white bg-green-500 py-5`;
+const Button = tw.button`w-full text-base font-semibold text-white bg-green-500 py-5 outline-none`;
 export default PropertyListing;
