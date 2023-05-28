@@ -44,6 +44,7 @@ export const searchInProperties = async (req, res) => {
       square_fit_min = 100,
       square_fit_max = 10000,
       status,
+      q,
     } = req.query;
     if (page) {
       page = page - 1;
@@ -57,12 +58,25 @@ export const searchInProperties = async (req, res) => {
       bedrooms: { $gte: bedroom_min, $lte: bedroom_max },
       bathrooms: { $gte: bathroom_min, $lte: bathroom_max },
       area: { $gte: square_fit_min, $lte: square_fit_max },
+      ...(q && { address: { $regex: q, $options: "i" } }),
       ...(status && { status }),
     })
       .sort(sortOptions)
       .limit(8)
       .skip(8 * Math.max(0, page));
-    return res.status(200).json({ error: false, listings: getProperties });
+    const propertiesCount = await PropertyModel.countDocuments({
+      publish: true,
+      bedrooms: { $gte: bedroom_min, $lte: bedroom_max },
+      bathrooms: { $gte: bathroom_min, $lte: bathroom_max },
+      area: { $gte: square_fit_min, $lte: square_fit_max },
+      ...(q && { address: { $regex: q, $options: "i" } }),
+      ...(status && { status }),
+    });
+    return res.status(200).json({
+      error: false,
+      listings: getProperties,
+      totalPage: Math.floor(propertiesCount / 8),
+    });
   } catch (error) {
     return res
       .status(500)
