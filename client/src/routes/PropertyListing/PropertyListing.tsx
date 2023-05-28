@@ -13,7 +13,6 @@ import { Navigation } from "swiper";
 import { Link } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { IoCallOutline } from "react-icons/io5";
-import LoadingIframe from "react-loading-iframe";
 import Skeleton from "react-loading-skeleton";
 
 type TPropertyListing = { error: boolean; property: TProperty };
@@ -116,12 +115,19 @@ const PropertyListing = () => {
             </h3>
             <div className="flex items-center mb-14">
               {data?.offPercent === 0 ? (
-                <></>
+                <h2 className="text-[44px] font-bold text-green-500">
+                  {Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(data?.price)}
+                </h2>
               ) : (
                 <>
                   <h2 className="text-[44px] font-bold text-green-500">
                     {calculateOffPercent(
-                      data?.price as string,
+                      data?.price as number,
                       data?.offPercent as number
                     )}
                   </h2>

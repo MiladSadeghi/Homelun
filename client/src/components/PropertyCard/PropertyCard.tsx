@@ -14,7 +14,9 @@ const PropertyCard: React.FC<Props> = ({ property }) => {
     <div>
       <img className="h-72 w-full" src={property.gallery[0].url} />
       <div className="py-[30px] px-6">
-        <h5 className="text-2xl text-gray-500 font-bold">{property.address}</h5>
+        <h5 className="text-2xl text-gray-500 font-bold line-clamp-2 h-16">
+          {property.address}
+        </h5>
         <p className="mt-4 text-[#8C959F] text-lg font-normal">
           {property.agent.name}
         </p>

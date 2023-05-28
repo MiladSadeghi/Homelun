@@ -8,6 +8,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { TProperty } from "../../types/property";
 import { PropertyCard, PropertySkeleton } from "../../components/PropertyCard";
+import useDebounce from "../../hooks/useDebounce";
+import ReactPaginate from "react-paginate";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 type TPropertyType = {
   value: "rent" | "sale";
@@ -40,6 +43,7 @@ type TSearchParams = {
   square_fit_min?: number;
   square_fit_max?: number;
   status?: "rent" | "sale";
+  q?: string;
 };
 function selectBoxStyles<T>():
   | StylesConfig<T, false, GroupBase<T>>
@@ -83,6 +87,8 @@ const AllListingProperties = () => {
   const [searchParams, setSearchParams] = useState<TSearchParams>({
     sort: searchFilter?.value,
   });
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [totalPage, setTotalPage] = useState<number>(1);
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: [
@@ -93,10 +99,16 @@ const AllListingProperties = () => {
     ],
     queryFn: () =>
       axios
-        .get<{ error: boolean; listings: TProperty[] }>("/properties/search", {
-          params: searchParams,
-        })
-        .then((response) => response.data.listings),
+        .get<{ error: boolean; listings: TProperty[]; totalPage: number }>(
+          "/properties/search",
+          {
+            params: searchParams,
+          }
+        )
+        .then((response) => {
+          setTotalPage(response.data.totalPage);
+          return response.data.listings;
+        }),
   });
 
   const changeBedroom = () => {
@@ -123,6 +135,26 @@ const AllListingProperties = () => {
     }));
   };
 
+  const debouncedSearchInput = useDebounce(searchInput, 500);
+
+  useEffect(() => {
+    if (debouncedSearchInput !== "") {
+      setSearchParams((prevState) => ({
+        ...prevState,
+        q: debouncedSearchInput,
+      }));
+    } else {
+      setSearchParams((prevState: TSearchParams) => {
+        if (debouncedSearchInput !== "") {
+          return { ...prevState, q: debouncedSearchInput };
+        } else {
+          const { q, ...rest } = prevState;
+          return rest;
+        }
+      });
+    }
+  }, [debouncedSearchInput]);
+
   useEffect(() => {
     setSearchParams((prevState: TSearchParams) => {
       if (propertyType) {
@@ -144,6 +176,13 @@ const AllListingProperties = () => {
   useEffect(() => {
     refetch();
   }, [searchParams]);
+
+  const pageChanged = ({ selected }: { selected: number }) => {
+    setSearchParams((prevState) => ({
+      ...prevState,
+      page: selected + 1,
+    }));
+  };
 
   return (
     <Wrapper>
@@ -214,7 +253,12 @@ const AllListingProperties = () => {
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500"
                 size={24}
               />
-              <Input type="search" placeholder="Search Property Address" />
+              <Input
+                type="search"
+                placeholder="Search Property Address"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
             </div>
             <div>
               <Select
@@ -234,6 +278,26 @@ const AllListingProperties = () => {
                 <PropertyCard key={property._id} property={property} />
               ))}
           </div>
+          {totalPage > 0 && (
+            <ReactPaginate
+              onPageChange={pageChanged}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={1}
+              pageCount={totalPage}
+              breakLabel={"..."}
+              previousLabel={
+                <MdKeyboardArrowLeft className="w-7 h-7 flex text-center text-red-500 m-2" />
+              }
+              nextLabel={
+                <MdKeyboardArrowRight className="w-7 h-7 flex text-center  text-red-500 m-2" />
+              }
+              containerClassName={"flex items-center justify-end mt-4"}
+              pageLinkClassName={
+                "w-7 h-7 flex justify-center items-center text-center m-2 rounded-md"
+              }
+              activeLinkClassName={"bg-red-500 text-white"}
+            />
+          )}
         </div>
       </div>
     </Wrapper>
