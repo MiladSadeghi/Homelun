@@ -1,8 +1,6 @@
-export const calculateOffPercent = (price: string, offPercent: number) => {
-  const numberString = price.replace(/[$,]/g, "");
-  const amount = parseFloat(numberString);
-  const discount = amount * (offPercent / 100);
-  const offPrice = amount - discount;
+export const calculateOffPercent = (price: number, offPercent: number) => {
+  const discount = price * (offPercent / 100);
+  const offPrice = price - discount;
 
   return new Intl.NumberFormat("en-US", {
     style: "currency",

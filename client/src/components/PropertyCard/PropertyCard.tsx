@@ -28,7 +28,12 @@ const PropertyCard: React.FC<Props> = ({ property }) => {
                 </span>
               </>
             ) : (
-              property.price
+              Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(property.price)
             )}
           </p>
           <div>

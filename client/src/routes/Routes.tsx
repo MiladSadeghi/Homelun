@@ -12,13 +12,13 @@ import Faqs from "./Faqs";
 import Privacy from "./Privacy";
 import Terms from "./Terms";
 import PropertyListing from "./PropertyListing";
+import AllListingProperties from "./AllListingProperties";
 
 function Routes() {
   const location = useLocation();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    console.log(location);
   }, [location]);
 
   return (
@@ -33,6 +33,7 @@ function Routes() {
           <Route path="faqs" element={<Faqs />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms-of-service" element={<Terms />} />
+          <Route path="listings" element={<AllListingProperties />} />
           <Route path="listings/:slug" element={<PropertyListing />} />
           <Route path="*" element={<NotFound />} />
         </Route>
