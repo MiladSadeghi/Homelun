@@ -11,7 +11,7 @@ const PropertySchema = new mongoose.Schema(
       type: [String],
     },
     price: {
-      type: String,
+      type: Number,
     },
     offPercent: {
       type: Number,
