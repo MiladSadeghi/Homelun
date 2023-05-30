@@ -1,10 +1,65 @@
-import tw from "twin.macro";
+import tw, { styled } from "twin.macro";
 import Apartment from "../../assets/footer-apartemant.png";
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TDropFeatureForm, TLatestNewsForm } from "../../types/forms";
+import { dropFeatureForm, latestNewsForm } from "../../forms/schema.ts";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Footer() {
+  const dropFeature = useForm<TDropFeatureForm>({
+    resolver: zodResolver(dropFeatureForm),
+  });
+  const latestNews = useForm<TLatestNewsForm>({
+    resolver: zodResolver(latestNewsForm),
+  });
+
+  const dropFeatureMutation = useMutation({
+    mutationFn: (data: TDropFeatureForm) =>
+      axios.post<{ error: boolean; message: string }>("/drop-feature", {
+        name: data.name,
+        email: data.email,
+      }),
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+      dropFeature.reset();
+    },
+  });
+
+  const latestNewsMutation = useMutation({
+    mutationFn: (data: TLatestNewsForm) =>
+      axios.post<{ error: boolean; message: string }>("/latest-news", {
+        email: data.email,
+      }),
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    },
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+      dropFeature.reset();
+    },
+  });
+
+  const handleDropFeatureForm = async (inputsData: TDropFeatureForm) => {
+    await dropFeatureMutation.mutate(inputsData);
+  };
+
+  const handleLatestNewsForm = async (inputsData: TLatestNewsForm) => {
+    await latestNewsMutation.mutate(inputsData);
+  };
+
   return (
     <footer tw="mt-36">
       <Banner>
@@ -14,9 +69,29 @@ function Footer() {
               <h5 tw="font-bold leading-[56px] text-[40px] mb-[70px] text-gray-500">
                 Be the first to know when we drop a new feature or product
               </h5>
-              <Input type="text" placeholder="Your Name" />
-              <Input type="email" placeholder="Email" />
-              <Button>Submit</Button>
+              <form onSubmit={dropFeature.handleSubmit(handleDropFeatureForm)}>
+                <Input
+                  type="text"
+                  placeholder="Your Name"
+                  {...dropFeature.register("name")}
+                  $isError={String(
+                    Object.keys(dropFeature.formState.errors).includes("name")
+                  )}
+                  title={dropFeature.formState.errors.name?.message}
+                />
+                <Input
+                  type="text"
+                  placeholder="Email"
+                  {...dropFeature.register("email")}
+                  $isError={String(
+                    Object.keys(latestNews.formState.errors).includes("email")
+                  )}
+                  title={dropFeature.formState.errors.email?.message}
+                />
+                <Button type="submit" disabled={dropFeatureMutation.isLoading}>
+                  Submit
+                </Button>
+              </form>
               <p tw="text-[#888888] text-lg text-center">
                 Still have any question?{" "}
                 <Link to="/contact-us" tw="text-gray-500 font-semibold ">
@@ -26,8 +101,8 @@ function Footer() {
             </div>
           </div>
           <div tw="w-3/4 flex justify-center">
-            <img src={Apartment} tw="-scale-x-100" />
-            <img src={Apartment} tw="w-1/4 self-end object-contain -ml-5" />
+            <img src={Apartment} tw="-scale-x-100"/>
+            <img src={Apartment} tw="w-1/4 self-end object-contain -ml-5"/>
           </div>
         </div>
       </Banner>
@@ -36,10 +111,10 @@ function Footer() {
           <div tw="flex justify-between">
             <ul>
               <li>
-                <Logo textColor="text-white" />
+                <Logo textColor="text-white"/>
               </li>
-              <Li tw="mt-7 text-[#C1C1C1]">MiladSadeghi</Li>
-              <Li tw="mt-5">Call us: miladsadeghi2323@gmail.com</Li>
+              <Li tw="mt-7 text-[#C1C1C1]">Milad Sadeghi</Li>
+              <Li tw="mt-5">Call us: MiladSadeghi2323@gmail.com</Li>
             </ul>
             <ul tw="[& li]:mb-5">
               <Li>
@@ -68,14 +143,26 @@ function Footer() {
             </ul>
             <ul>
               <Li tw="text-lg mb-7 text-white font-semibold">Subscribe</Li>
-              <Li tw="mb-8">Subscribe to get the latest news from us</Li>
-              <Li tw="relative">
-                <Input
-                  type="email"
-                  tw="py-3 mb-0"
-                  placeholder="Email Address"
-                />
-                <BsFillArrowRightCircleFill tw="absolute right-4 top-1/2 -translate-y-1/2 text-red-500 text-2xl cursor-pointer" />
+              <Li tw="mb-8 ">Subscribe to get the latest news from us</Li>
+              <Li>
+                <form
+                  tw="relative"
+                  onSubmit={latestNews.handleSubmit(handleLatestNewsForm)}
+                >
+                  <Input
+                    type="email"
+                    className="py-3 !mb-0 pr-12"
+                    placeholder="Email Address"
+                    disabled={latestNewsMutation.isLoading}
+                    {...latestNews.register("email")}
+                  />
+                  <button
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                    type="submit"
+                  >
+                    <BsFillArrowRightCircleFill tw=" text-red-500 text-2xl cursor-pointer"/>
+                  </button>
+                </form>
               </Li>
             </ul>
           </div>
@@ -96,7 +183,13 @@ function Footer() {
 }
 
 const Banner = tw.div`container mx-auto h-[661px] -mb-[220px] relative`;
-const Input = tw.input`py-4 px-6 border border-[#E3E3E3] outline-none w-full mb-6 text-[#888888]`;
+const Input = styled.input<{
+  $isError?: string;
+}>`
+  ${tw`py-4 px-6 border border-[#E3E3E3] outline-none w-full mb-6 text-[#888888]`} ${({
+                                                                                        $isError,
+                                                                                      }) => ($isError === "true" ? tw`border-red-500` : tw``)}
+`;
 const Button = tw.button`w-full text-white bg-green-500 py-5 mb-6`;
 const Li = tw.li`text-[#C1C1C1] text-base font-normal`;
 
