@@ -60,15 +60,15 @@ const OurValue = () => {
         </p>
       </div>
       <div className="mt-20 grid grid-cols-4 gap-6">
-        {Values.map((value: TValues) => (
-          <div className="p-[40px] border border-solid border-[#E3E3E3]">
-            <ReactSVG src={value.icon} />
+        {Values.map((value: TValues, index: number) => (
+          <div key={index} className="p-[40px] border border-solid border-[#E3E3E3]">
+            <ReactSVG src={value.icon}/>
             <h6 className="mt-7 mb-4 font-bold text-xl">{value.title}</h6>
             <p className="leading-7 text-[#888888] text-base">{value.desc}</p>
           </div>
         ))}
       </div>
-      <OurTeam agents={data?.agents.agents as TAgent[]} loading={isLoading} />
+      <OurTeam agents={data?.agents.agents as TAgent[]} loading={isLoading}/>
     </div>
   );
 };

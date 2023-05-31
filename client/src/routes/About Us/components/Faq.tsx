@@ -16,13 +16,14 @@ const Faq = () => {
         </p>
       </div>
       <div className="mt-[70px] grid grid-cols-2 gap-6">
-        {Faqs.slice(0, 6).map((faq: TFaqs) => (
+        {Faqs.slice(0, 6).map((faq: TFaqs, index: number) => (
           <HashLink
+            key={index}
             to={`/faqs#${faq.question.replace(/\s/g, "-")}`}
             className="flex items-center justify-between border border-[#E3E3E3] w-full px-7 py-10"
           >
             <h5 className="font-bold text-xl text-gray-500">{faq.question}</h5>
-            <BiRightArrowAlt size={23} />
+            <BiRightArrowAlt size={23}/>
           </HashLink>
         ))}
       </div>

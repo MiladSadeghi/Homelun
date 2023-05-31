@@ -71,7 +71,7 @@ const ContactUs = () => {
               />
 
               <div>
-                <input type="checkbox"
+                <input type="checkbox" id="privacy"
                        {...contact.register("acceptTerms")} />
                 <label
                   className={`text-lg text-[#8C959F] ml-4 ${Object.keys(contact.formState.errors).includes("accessTerms") && "text-red-500"}`}

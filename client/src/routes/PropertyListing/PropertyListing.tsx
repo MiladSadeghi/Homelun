@@ -101,8 +101,6 @@ const PropertyListing = () => {
     })
   }
 
-  if (isLoading) return <>Loading...</>;
-
   const gallerySlides: React.ReactNode[] = [];
   data?.gallery.map((gallery: TGallery) => {
     gallerySlides.push(
@@ -120,14 +118,19 @@ const PropertyListing = () => {
       <Wrapper>
         <div className="grid grid-cols-2">
           <div>
-            <img
-              onClick={() => setGalleryModalOpen(true)}
-              src={data?.gallery[0].url}
-              className="h-[450px] w-full mb-4 object-cover cursor-pointer"
-              alt={data?.gallery[0].url}
-            />
+            {
+              isLoading ? <Skeleton className="h-[450px] w-full mb-4 object-cover cursor-pointer"/> : <img
+                onClick={() => setGalleryModalOpen(true)}
+                src={data?.gallery[0].url}
+                className="h-[450px] w-full mb-4 object-cover cursor-pointer"
+                alt={data?.gallery[0].url}
+              />
+            }
+
+
             <div className="grid grid-cols-3 gap-4">
-              {data?.gallery.slice(1, 4).map((gallery: TGallery) => (
+              {isLoading ? <><Skeleton className="h-[163px]"/><Skeleton className="h-[163px]"/><Skeleton
+                className="h-[163px]"/></> : data?.gallery.slice(1, 4).map((gallery: TGallery) => (
                 <div
                   onClick={() => setGalleryModalOpen(true)}
                   key={gallery._id}
@@ -137,71 +140,98 @@ const PropertyListing = () => {
                   <img src={gallery.url} alt={gallery.url}/>
                 </div>
               ))}
+
             </div>
           </div>
           <div className="ml-16">
             <div className="flex items-center mb-4">
-              <p className="capitalize text-base text-red-500">
-                {data?.status}
-              </p>
-              {data?.furnished && (
+              {isLoading ?
                 <>
-                  <BsDot className=" text-red-500 " size={32}/>
-                  <p className=" text-red-500">Furnished</p>
+                  <Skeleton className="w-8" containerClassName="w-8"/>
+                  <Skeleton circle={true} className="!w-1.5 !h-1.5"
+                            containerClassName="h-8 w-8 flex items-center justify-center"/>
+                  <Skeleton className="w-8" containerClassName="w-8"/>
+                </> :
+                <>
+                  <p className="capitalize text-base text-red-500">
+                    {data?.status}
+                  </p>
+                  {data?.furnished && (
+                    <>
+                      <BsDot className="text-red-500" size={32}/>
+                      <p className="text-red-500">Furnished</p>
+                    </>
+                  )}
                 </>
-              )}
+              }
             </div>
             <h3 className="font-semibold text-4xl mb-[70px]">
-              {data?.address}
+
+              {isLoading ? <Skeleton count={1.5}/> : data?.address}
             </h3>
             <div className="flex items-center mb-14">
-              {data?.offPercent === 0 ? (
-                <h2 className="text-[44px] font-bold text-green-500">
-                  {Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0,
-                  }).format(data?.price)}
-                </h2>
-              ) : (
-                <>
+
+              {isLoading ?
+                <Skeleton className="w-full h-full" containerClassName="h-7 w-full"
+                          count={1}/> : data?.offPercent === 0 ? (
                   <h2 className="text-[44px] font-bold text-green-500">
-                    {calculateOffPercent(
-                      data?.price as number,
-                      data?.offPercent as number
-                    )}
+                    {Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    }).format(data?.price)}
                   </h2>
-                  <h6 className="font-normal text-[#8C959F] text-xl ml-3 line-through">
-                    {data?.price}
-                  </h6>
-                  <span className="py-.5 px-2.5 text-red-500 ml-5 bg-red-100">
+                ) : (
+                  <>
+                    <h2 className="text-[44px] font-bold text-green-500">
+                      {calculateOffPercent(
+                        data?.price as number,
+                        data?.offPercent as number
+                      )}
+                    </h2>
+                    <h6 className="font-normal text-[#8C959F] text-xl ml-3 line-through">
+                      {data?.price}
+                    </h6>
+                    <span className="py-.5 px-2.5 text-red-500 ml-5 bg-red-100">
                     {data?.offPercent}% Off
                   </span>
-                </>
-              )}
+                  </>
+                )}
             </div>
             <div className="flex flex-wrap gap-6">
-              <PropertyInformation>{data?.bedrooms} Bed</PropertyInformation>
-              <PropertyInformation>{data?.bathrooms} bath</PropertyInformation>
-              <PropertyInformation>{data?.area} Sq feet</PropertyInformation>
+              {
+                isLoading ?
+                  <Skeleton className="w-full h-full" containerClassName="h-14 w-full" count={1.5}/>
+                  :
+                  <>
+                    <PropertyInformation>{data?.bedrooms} Bed</PropertyInformation>
+                    <PropertyInformation>{data?.bathrooms} bath</PropertyInformation>
+                    <PropertyInformation>{data?.area} Sq feet</PropertyInformation>
+                  </>
+              }
             </div>
           </div>
         </div>
         <div className="p-20 border border-[#E3E3E3] mt-28">
           <div className="flex gap-6 mb-12">
-            {["Overview", "Gallery", "Location", "Agent"].map(
-              (tabValue) => <Tab
-                key={tabValue}
-                active={(tab === tabValue).toString()}
-                onClick={() => setTab(tabValue)}
-              >
-                {tabValue}
-              </Tab>
-            )}
+            {
+              isLoading ? <Skeleton className="w-full h-full" containerClassName="h-14 w-full"/> :
+                ["Overview", "Gallery", "Location", "Agent"].map(
+                  (tabValue) => <Tab
+                    key={tabValue}
+                    $isActive={tab === tabValue}
+                    onClick={() => setTab(tabValue)}
+                  >
+                    {tabValue}
+                  </Tab>
+                )
+            }
           </div>
           <div>
-            {tab === "Overview" && (
+            {isLoading ?
+              <Skeleton count={13.5} className="w-full h-full"
+                        containerClassName="h-14 w-full"/> : tab === "Overview" && (
               <>
                 <h5 className="font-semibold text-2xl mb-5">About Property</h5>
                 <p className="text-[#8C959F] text-lg leading-7 mb-14">
@@ -340,7 +370,7 @@ const PropertyListing = () => {
           </div>
         </div>
       </Wrapper>
-      <GalleryModal isopen={galleryModalOpen.toString()}>
+      <GalleryModal $isOpen={galleryModalOpen}>
         <div className="bg-white w-full h-full rounded-lg">
           <div className="flex justify-between items-center px-14 py-7 border-b border-b-gray-200">
             <h5 className="font-semibold text-3xl">Gallery</h5>
@@ -371,17 +401,27 @@ const PropertyListing = () => {
 };
 const Wrapper = tw.div`container mx-auto mt-[148px]`;
 const PropertyInformation = tw.span`text-[#8C959F] py-4 px-6 border border-[#E3E3E3]`;
-const Tab = styled.button<{ active: string }>`
-  ${tw`py-5 px-10`} ${({ active }) =>
-          active === "true"
-                  ? tw`bg-red-500 text-white font-semibold`
-                  : tw`border border-[#e3e3e3] text-[#8C959F]`}
+const Tab = styled.button
+  < { $isActive: boolean } > `
+${
+    tw`py-5 px-10`
+  } ${
+    ({ $isActive }) =>
+      $isActive
+        ? tw`bg-red-500 text-white font-semibold`
+        : tw`border border-[#e3e3e3] text-[#8C959F]`
+  }
 `;
 const Amenity = tw.span`py-[19px] px-10 border border-[#8C959F] text-[#8C959F] text-lg`;
-const GalleryModal = styled.div<{ isopen: string }>`
-  ${tw`fixed top-0 left-0 w-full h-screen bg-slate-800 bg-opacity-80 z-10 p-8 `} ${({
-                                                                                      isopen,
-                                                                                    }) => (isopen === "true" ? tw`block` : tw`hidden`)}
+const GalleryModal = styled.div
+  < { $isOpen: boolean } > `
+${
+    tw`fixed top-0 left-0 w-full h-screen bg-slate-800 bg-opacity-80 z-10 p-8 `
+  } ${
+    ({
+      $isOpen,
+    }) => ($isOpen ? tw`block` : tw`hidden`)
+  }
 `;
 
 const Input = tw.input`px-5 py-5 border border-[#E3E3E3] outline-none`;

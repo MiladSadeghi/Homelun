@@ -29,10 +29,10 @@ const OurTeam = ({ agents, loading }: Props) => {
         </div>
       </div>
       <div tw="grid grid-cols-3 gap-6">
-        {loading && <AgentCardSkeleton cards={3} />}
+        {loading && <AgentCardSkeleton cards={3}/>}
         {agents &&
           agents.map((agent: TAgent) => (
-            <AgentCard key={agent._id} agent={agent} />
+            <AgentCard key={agent._id} agent={agent}/>
           ))}
       </div>
     </Wrapper>

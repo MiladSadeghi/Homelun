@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import tw from "twin.macro";
-import { Faqs as FaqsA } from "../../utils/faqs";
-import { TFaqs } from "../../utils/faqs";
+import { Faqs as FaqsA, TFaqs } from "../../utils/faqs";
 import { useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { useEffect } from "react";
@@ -29,7 +28,7 @@ const Faqs = () => {
         Faqs
       </h1>
       {FaqsA.map((faq: TFaqs, index: number) => (
-        <div className="mb-9">
+        <div className="mb-9" key={index}>
           <HashLink
             key={index}
             to={`#${faq.question.replace(/\s/g, "-")}`}
