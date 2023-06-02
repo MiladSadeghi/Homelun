@@ -29,7 +29,7 @@ const Agents = () => {
           estate
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {isLoading && <AgentCardSkeleton cards={6} />}
         {data &&
           data.map((agent: TAgent) => (
@@ -41,7 +41,7 @@ const Agents = () => {
         <p className="font-normal text-xl text-gray-400 mb-14">
           More than 15,000+ brand trust homelun
         </p>
-        <div tw="grid grid-cols-5 justify-center w-full [&>div]:mx-auto">
+        <div tw="grid grid-cols-2 md:grid-cols-5 justify-center w-full gap-4 [&>div]:mx-auto">
           <ReactSVG src={IFTTT} />
           <ReactSVG src={Amazon} />
           <ReactSVG src={Google} />

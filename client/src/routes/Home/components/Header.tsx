@@ -6,13 +6,12 @@ import { ReactSVG } from "react-svg";
 
 function Header() {
   return (
-    <div
-      className="w-full relative pt-[148px] bg-gradient-to-b from-[#F9FBFC] from-80% via-white via-80% to-white to-100%">
+    <div className="w-full relative pt-20 sm:pt-[148px] bg-gradient-to-b from-[#F9FBFC] from-80% via-white via-80% to-white to-100%">
       <div className="container mx-auto">
-        <div className="flex h-[760px]">
-          <div className="w-1/2 px-5 flex flex-col justify-between h-full">
+        <div className="flex flex-col md:flex-row h-full md:h-[760px]">
+          <div className="w-full md:w-1/2 md:px-5 flex flex-col justify-between h-full">
             <div>
-              <h2 className="mt-5 text-gray-500 font-bold text-7xl leading-[94px]">
+              <h2 className="mt-5 text-gray-500 font-bold text-6xl lg:text-7xl leading-snug lg:leading-[94px]">
                 Find your best smart real estate
               </h2>
               <p className="text-2xl text-[#8C959F] font-normal mt-7">
@@ -25,15 +24,18 @@ function Header() {
               <p className="text-xl text-[#8C959F]">
                 More than 15,000+ brand trust homelun
               </p>
-              <div className="flex mt-14">
-                <ReactSVG className="mr-[70px]" src={IFTTT}/>
-                <ReactSVG className="mr-[70px]" src={Amazon}/>
-                <ReactSVG src={Google}/>
+              <div className="flex flex-wrap justify-between gap-4 mt-14">
+                <ReactSVG className="" src={IFTTT} />
+                <ReactSVG className="" src={Amazon} />
+                <ReactSVG src={Google} />
               </div>
             </div>
           </div>
-          <div className="absolute top-[148px] right-0 w-1/2 h-[780px] pl-24">
-            <img className="object-cover h-full min-w-full" src={Apartment}/>
+          <div className="md:absolute top-[148px] right-0 w-full md:w-1/2 md:h-[780px] md:pl-12 lg:pl-24 mt-8 md:mt-0">
+            <img
+              className="object-cover h-full min-w-full object-right-top"
+              src={Apartment}
+            />
           </div>
         </div>
       </div>

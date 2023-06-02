@@ -26,12 +26,14 @@ type TPropertyListing = { error: boolean; property: TProperty };
 const PropertyListing = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"Overview" | "Gallery" | "Location" | "Agent" | string>(
-    "Overview"
-  );
+  const [tab, setTab] = useState<
+    "Overview" | "Gallery" | "Location" | "Agent" | string
+  >("Overview");
   const [galleryModalOpen, setGalleryModalOpen] = useState<boolean>(false);
   const [isMapLoaded, setIsMapLoaded] = useState<boolean>(false);
-  const takeTour = useForm<TTakeTourForm>({ resolver: zodResolver(takeTourForm) })
+  const takeTour = useForm<TTakeTourForm>({
+    resolver: zodResolver(takeTourForm),
+  });
 
   const { isLoading, data, isError } = useQuery({
     queryKey: ["property", { slug }],
@@ -42,16 +44,18 @@ const PropertyListing = () => {
   });
 
   const takeTourMutation = useMutation({
-    mutationFn: (data: TTakeTourForm & {
-      agent: string;
-      property: string;
-    }) =>
+    mutationFn: (
+      data: TTakeTourForm & {
+        agent: string;
+        property: string;
+      }
+    ) =>
       axios.post<{ error: boolean; message: string }>("/take-tour", {
         email: data.email,
         name: data.name,
         message: data.message,
         agent: data.agent,
-        property: data.property
+        property: data.property,
       }),
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -97,16 +101,20 @@ const PropertyListing = () => {
       email: formInputs.email,
       message: formInputs.message,
       agent: data?.agent._id as string,
-      property: data?._id as string
-    })
-  }
+      property: data?._id as string,
+    });
+  };
 
   const gallerySlides: React.ReactNode[] = [];
   data?.gallery.map((gallery: TGallery) => {
     gallerySlides.push(
       React.cloneElement(
         <SwiperSlide>
-          <img className="object-contain h-full w-full" src={gallery.url} alt={gallery.url}/>
+          <img
+            className="object-contain h-full w-full"
+            src={gallery.url}
+            alt={gallery.url}
+          />
         </SwiperSlide>,
         { key: gallery._id }
       )
@@ -116,148 +124,182 @@ const PropertyListing = () => {
   return (
     <div className="relative">
       <Wrapper>
-        <div className="grid grid-cols-2">
+        <div className="grid md:grid-cols-2">
           <div>
-            {
-              isLoading ? <Skeleton className="h-[450px] w-full mb-4 object-cover cursor-pointer"/> : <img
+            {isLoading ? (
+              <Skeleton className="h-[450px] w-full mb-4 object-cover cursor-pointer" />
+            ) : (
+              <img
                 onClick={() => setGalleryModalOpen(true)}
                 src={data?.gallery[0].url}
                 className="h-[450px] w-full mb-4 object-cover cursor-pointer"
                 alt={data?.gallery[0].url}
               />
-            }
-
+            )}
 
             <div className="grid grid-cols-3 gap-4">
-              {isLoading ? <><Skeleton className="h-[163px]"/><Skeleton className="h-[163px]"/><Skeleton
-                className="h-[163px]"/></> : data?.gallery.slice(1, 4).map((gallery: TGallery) => (
-                <div
-                  onClick={() => setGalleryModalOpen(true)}
-                  key={gallery._id}
-                  data-content={`+${data.gallery.length - 4}`}
-                  className={`relative cursor-pointer last-of-type:after:absolute last-of-type:after:left-0  last-of-type:after:top-0 last-of-type:after:flex last-of-type:after:justify-center last-of-type:after:items-center last-of-type:after:text-white last-of-type:after:bg-black last-of-type:after:bg-opacity-60  last-of-type:after:z-10 last-of-type:after:w-full last-of-type:after:h-full last-of-type:after:text-xl last-of-type:after:font-bold last-of-type:after:content-[attr(data-content)]`}
-                >
-                  <img src={gallery.url} alt={gallery.url}/>
-                </div>
-              ))}
-
+              {isLoading ? (
+                <>
+                  <Skeleton className="h-[163px]" />
+                  <Skeleton className="h-[163px]" />
+                  <Skeleton className="h-[163px]" />
+                </>
+              ) : (
+                data?.gallery.slice(1, 4).map((gallery: TGallery) => (
+                  <div
+                    onClick={() => setGalleryModalOpen(true)}
+                    key={gallery._id}
+                    data-content={`+${data.gallery.length - 4}`}
+                    className={`relative cursor-pointer last-of-type:after:absolute last-of-type:after:left-0  last-of-type:after:top-0 last-of-type:after:flex last-of-type:after:justify-center last-of-type:after:items-center last-of-type:after:text-white last-of-type:after:bg-black last-of-type:after:bg-opacity-60  last-of-type:after:z-10 last-of-type:after:w-full last-of-type:after:h-full last-of-type:after:text-xl last-of-type:after:font-bold last-of-type:after:content-[attr(data-content)]`}
+                  >
+                    <img src={gallery.url} alt={gallery.url} />
+                  </div>
+                ))
+              )}
             </div>
           </div>
-          <div className="ml-16">
+          <div className="md:ml-16 mt-10 md:mt-0">
             <div className="flex items-center mb-4">
-              {isLoading ?
+              {isLoading ? (
                 <>
-                  <Skeleton className="w-8" containerClassName="w-8"/>
-                  <Skeleton circle={true} className="!w-1.5 !h-1.5"
-                            containerClassName="h-8 w-8 flex items-center justify-center"/>
-                  <Skeleton className="w-8" containerClassName="w-8"/>
-                </> :
+                  <Skeleton className="w-8" containerClassName="w-8" />
+                  <Skeleton
+                    circle={true}
+                    className="!w-1.5 !h-1.5"
+                    containerClassName="h-8 w-8 flex items-center justify-center"
+                  />
+                  <Skeleton className="w-8" containerClassName="w-8" />
+                </>
+              ) : (
                 <>
                   <p className="capitalize text-base text-red-500">
                     {data?.status}
                   </p>
                   {data?.furnished && (
                     <>
-                      <BsDot className="text-red-500" size={32}/>
+                      <BsDot className="text-red-500" size={32} />
                       <p className="text-red-500">Furnished</p>
                     </>
                   )}
                 </>
-              }
+              )}
             </div>
             <h3 className="font-semibold text-4xl mb-[70px]">
-
-              {isLoading ? <Skeleton count={1.5}/> : data?.address}
+              {isLoading ? <Skeleton count={1.5} /> : data?.address}
             </h3>
             <div className="flex items-center mb-14">
-
-              {isLoading ?
-                <Skeleton className="w-full h-full" containerClassName="h-7 w-full"
-                          count={1}/> : data?.offPercent === 0 ? (
+              {isLoading ? (
+                <Skeleton
+                  className="w-full h-full"
+                  containerClassName="h-7 w-full"
+                  count={1}
+                />
+              ) : data?.offPercent === 0 ? (
+                <h2 className="text-[44px] font-bold text-green-500">
+                  {Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  }).format(data?.price)}
+                </h2>
+              ) : (
+                <>
                   <h2 className="text-[44px] font-bold text-green-500">
-                    {Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    }).format(data?.price)}
+                    {calculateOffPercent(
+                      data?.price as number,
+                      data?.offPercent as number
+                    )}
                   </h2>
-                ) : (
-                  <>
-                    <h2 className="text-[44px] font-bold text-green-500">
-                      {calculateOffPercent(
-                        data?.price as number,
-                        data?.offPercent as number
-                      )}
-                    </h2>
-                    <h6 className="font-normal text-[#8C959F] text-xl ml-3 line-through">
-                      {data?.price}
-                    </h6>
-                    <span className="py-.5 px-2.5 text-red-500 ml-5 bg-red-100">
+                  <h6 className="font-normal text-[#8C959F] text-xl ml-3 line-through">
+                    {data?.price}
+                  </h6>
+                  <span className="py-.5 px-2.5 text-red-500 ml-5 bg-red-100">
                     {data?.offPercent}% Off
                   </span>
-                  </>
-                )}
+                </>
+              )}
             </div>
             <div className="flex flex-wrap gap-6">
-              {
-                isLoading ?
-                  <Skeleton className="w-full h-full" containerClassName="h-14 w-full" count={1.5}/>
-                  :
-                  <>
-                    <PropertyInformation>{data?.bedrooms} Bed</PropertyInformation>
-                    <PropertyInformation>{data?.bathrooms} bath</PropertyInformation>
-                    <PropertyInformation>{data?.area} Sq feet</PropertyInformation>
-                  </>
-              }
+              {isLoading ? (
+                <Skeleton
+                  className="w-full h-full"
+                  containerClassName="h-14 w-full"
+                  count={1.5}
+                />
+              ) : (
+                <>
+                  <PropertyInformation>
+                    {data?.bedrooms} Bed
+                  </PropertyInformation>
+                  <PropertyInformation>
+                    {data?.bathrooms} bath
+                  </PropertyInformation>
+                  <PropertyInformation>
+                    {data?.area} Sq feet
+                  </PropertyInformation>
+                </>
+              )}
             </div>
           </div>
         </div>
-        <div className="p-20 border border-[#E3E3E3] mt-28">
-          <div className="flex gap-6 mb-12">
-            {
-              isLoading ? <Skeleton className="w-full h-full" containerClassName="h-14 w-full"/> :
-                ["Overview", "Gallery", "Location", "Agent"].map(
-                  (tabValue) => <Tab
-                    key={tabValue}
-                    $isActive={tab === tabValue}
-                    onClick={() => setTab(tabValue)}
-                  >
-                    {tabValue}
-                  </Tab>
-                )
-            }
+        <div className="p-10 md:p-20 border border-[#E3E3E3] mt-28">
+          <div className="flex gap-6 mb-12 overflow-x-auto">
+            {isLoading ? (
+              <Skeleton
+                className="w-full h-full"
+                containerClassName="h-14 w-full"
+              />
+            ) : (
+              ["Overview", "Gallery", "Location", "Agent"].map((tabValue) => (
+                <Tab
+                  key={tabValue}
+                  $isActive={tab === tabValue}
+                  onClick={() => setTab(tabValue)}
+                >
+                  {tabValue}
+                </Tab>
+              ))
+            )}
           </div>
           <div>
-            {isLoading ?
-              <Skeleton count={13.5} className="w-full h-full"
-                        containerClassName="h-14 w-full"/> : tab === "Overview" && (
-              <>
-                <h5 className="font-semibold text-2xl mb-5">About Property</h5>
-                <p className="text-[#8C959F] text-lg leading-7 mb-14">
-                  {data?.about}
-                </p>
-                <h5 className="font-semibold text-2xl mb-5">
-                  Property Amenities
-                </h5>
-                {data?.amenities.map((amenity: TAmenities) => (
-                  <div className="mb-10" key={amenity._id}>
-                    <h6 className="text-[#8C959F] text-lg mb-5">
-                      {amenity.amenityTitle}
-                    </h6>
-                    <div className="gap-x-6 flex flex-wrap">
-                      {amenity.amenity.map((data) =>
-                        data
-                          .split(", ")
-                          .map((item) => <Amenity key={item}>{item}</Amenity>)
-                      )}
+            {isLoading ? (
+              <Skeleton
+                count={13.5}
+                className="w-full h-full"
+                containerClassName="h-14 w-full"
+              />
+            ) : (
+              tab === "Overview" && (
+                <>
+                  <h5 className="font-semibold text-2xl mb-5">
+                    About Property
+                  </h5>
+                  <p className="text-[#8C959F] text-lg leading-7 mb-14">
+                    {data?.about}
+                  </p>
+                  <h5 className="font-semibold text-2xl mb-5">
+                    Property Amenities
+                  </h5>
+                  {data?.amenities.map((amenity: TAmenities) => (
+                    <div className="mb-10" key={amenity._id}>
+                      <h6 className="text-[#8C959F] text-lg mb-5">
+                        {amenity.amenityTitle}
+                      </h6>
+                      <div className="gap-x-6 gap-y-5 flex flex-wrap">
+                        {amenity.amenity.map((data) =>
+                          data
+                            .split(", ")
+                            .map((item) => <Amenity key={item}>{item}</Amenity>)
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </>
+                  ))}
+                </>
+              )
             )}
             {tab === "Gallery" && (
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data?.gallery.map((gallery: TGallery) => (
                   <img
                     className="cursor-pointer h-72 w-full object-cover"
@@ -289,7 +331,7 @@ const PropertyListing = () => {
               </div>
             )}
             {tab === "Agent" && (
-              <div className="grid grid-cols-2">
+              <div className="grid lg:grid-cols-2">
                 <div className="flex flex-col justify-around">
                   <div>
                     <h5 className="font-semibold text-2xl mb-4">Realtor</h5>
@@ -313,19 +355,19 @@ const PropertyListing = () => {
                     <p className="text-[#8C959F] text-base mb-10">
                       {data?.agent.field}
                     </p>
-                    <div className="flex items-center">
+                    <div className="flex items-center flex-wrap">
                       <p className="text-[#8C959F] text-lg flex items-center">
-                        <HiOutlineMail size={22} className="mr-4"/>
+                        <HiOutlineMail size={22} className="mr-4" />
                         MiladSadeghi2323@gmail.com
                       </p>
-                      <p className="text-[#8C959F] text-lg flex items-center ml-10">
-                        <IoCallOutline size={22} className="mr-4"/>
+                      <p className="text-[#8C959F] text-lg flex items-center md:ml-10 lg:ml-0 xl:ml-10">
+                        <IoCallOutline size={22} className="mr-4" />
                         {data?.agent.phoneNumber}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="p-16">
+                <div className="mt-14 lg:mt-0 lg:p-16">
                   <h6 className="font-semibold text-[22px] mb-8">
                     Take a Tour
                   </h6>
@@ -333,10 +375,21 @@ const PropertyListing = () => {
                     Schedule your showing today. Leave your contact, and we’ll
                     get back to you as soon as possible.
                   </p>
-                  <form onSubmit={takeTour.handleSubmit(handleTakeTour)} className="grid gap-4 mb-14">
+                  <form
+                    onSubmit={takeTour.handleSubmit(handleTakeTour)}
+                    className="grid gap-4 mb-14"
+                  >
                     <div className="grid grid-cols-2 gap-4">
-                      <Input type="text" placeholder="Your Name" {...takeTour.register("name")}/>
-                      <Input type="email" placeholder="Your Email" {...takeTour.register("email")}/>
+                      <Input
+                        type="text"
+                        placeholder="Your Name"
+                        {...takeTour.register("name")}
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Your Email"
+                        {...takeTour.register("email")}
+                      />
                     </div>
                     <textarea
                       className="px-5 py-5 border border-[#E3E3E3] w-full outline-none resize-none"
@@ -345,7 +398,11 @@ const PropertyListing = () => {
                       rows={5}
                     />
                     <div>
-                      <input type="checkbox" id="privacy" {...takeTour.register("acceptPrivacy")}/>
+                      <input
+                        type="checkbox"
+                        id="privacy"
+                        {...takeTour.register("acceptPrivacy")}
+                      />
                       <label
                         className="text-lg text-[#8C959F] ml-4"
                         htmlFor="privacy"
@@ -358,7 +415,8 @@ const PropertyListing = () => {
                       type="submit"
                       className="disabled:opacity-60"
                       disabled={
-                        !takeTour.formState.isValid || takeTourMutation.isLoading
+                        !takeTour.formState.isValid ||
+                        takeTourMutation.isLoading
                       }
                     >
                       Submit
@@ -388,10 +446,7 @@ const PropertyListing = () => {
               modules={[Navigation]}
               className="mySwiper h-full"
             >
-              {gallerySlides.map((gallerySlide) =>
-
-                gallerySlide
-              )}
+              {gallerySlides.map((gallerySlide) => gallerySlide)}
             </Swiper>
           </div>
         </div>
@@ -401,27 +456,17 @@ const PropertyListing = () => {
 };
 const Wrapper = tw.div`container mx-auto mt-[148px]`;
 const PropertyInformation = tw.span`text-[#8C959F] py-4 px-6 border border-[#E3E3E3]`;
-const Tab = styled.button
-  < { $isActive: boolean } > `
-${
-    tw`py-5 px-10`
-  } ${
-    ({ $isActive }) =>
-      $isActive
-        ? tw`bg-red-500 text-white font-semibold`
-        : tw`border border-[#e3e3e3] text-[#8C959F]`
-  }
+const Tab = styled.button<{ $isActive: boolean }>`
+  ${tw`py-5 px-10`} ${({ $isActive }) =>
+    $isActive
+      ? tw`bg-red-500 text-white font-semibold`
+      : tw`border border-[#e3e3e3] text-[#8C959F]`}
 `;
 const Amenity = tw.span`py-[19px] px-10 border border-[#8C959F] text-[#8C959F] text-lg`;
-const GalleryModal = styled.div
-  < { $isOpen: boolean } > `
-${
-    tw`fixed top-0 left-0 w-full h-screen bg-slate-800 bg-opacity-80 z-10 p-8 `
-  } ${
-    ({
-      $isOpen,
-    }) => ($isOpen ? tw`block` : tw`hidden`)
-  }
+const GalleryModal = styled.div<{ $isOpen: boolean }>`
+  ${tw`fixed top-0 left-0 w-full h-screen bg-slate-800 bg-opacity-80 z-10 p-8 `} ${({
+    $isOpen,
+  }) => ($isOpen ? tw`block` : tw`hidden`)}
 `;
 
 const Input = tw.input`px-5 py-5 border border-[#E3E3E3] outline-none`;

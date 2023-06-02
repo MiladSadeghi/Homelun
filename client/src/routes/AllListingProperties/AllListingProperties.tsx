@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import tw from "twin.macro";
 import Select, { GroupBase, StylesConfig } from "react-select";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Range from "../../components/Range";
 import { CiSearch } from "react-icons/ci";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +10,12 @@ import { TProperty } from "../../types/property";
 import { PropertyCard, PropertySkeleton } from "../../components/PropertyCard";
 import useDebounce from "../../hooks/useDebounce";
 import ReactPaginate from "react-paginate";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  CgMenuBoxed,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+} from "react-icons/all";
+import useMediaQuery from "../../hooks/useMediaQuery.ts";
 
 type TPropertyType = {
   value: "rent" | "sale";
@@ -45,6 +50,7 @@ type TSearchParams = {
   status?: "rent" | "sale";
   q?: string;
 };
+
 function selectBoxStyles<T>():
   | StylesConfig<T, false, GroupBase<T>>
   | undefined {
@@ -58,6 +64,7 @@ function selectBoxStyles<T>():
       borderRadius: "none",
       "&:hover": { borderColor: "#e3e3e3" },
       position: "relative",
+      zIndex: "999",
     }),
     dropdownIndicator: (base) => ({
       ...base,
@@ -70,8 +77,9 @@ function selectBoxStyles<T>():
       background: isFocused ? "#FF6653" : "#fff",
       color: isFocused ? "#fff" : "#FF6653",
       position: "relative",
+      zIndex: "40",
     }),
-    container: (base) => ({ ...base, zIndex: 20 }),
+    container: (base) => ({ ...base, zIndex: "40" }),
     indicatorSeparator: () => ({ display: "none" }),
   };
 }
@@ -89,6 +97,8 @@ const AllListingProperties = () => {
   });
   const [searchInput, setSearchInput] = useState<string>("");
   const [totalPage, setTotalPage] = useState<number>(1);
+  const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false);
+  const isMobile = useMediaQuery("(min-width: 768px)");
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: [
@@ -177,6 +187,11 @@ const AllListingProperties = () => {
     refetch();
   }, [searchParams]);
 
+  useEffect(() => {
+    console.log(isMobile);
+    if (isMobile) setFilterMenuOpen(false);
+  }, [isMobile]);
+
   const pageChanged = ({ selected }: { selected: number }) => {
     setSearchParams((prevState) => ({
       ...prevState,
@@ -186,8 +201,14 @@ const AllListingProperties = () => {
 
   return (
     <Wrapper>
-      <div className="grid grid-cols-4 gap-10">
-        <div className="border border-[#E3E3E3] p-7 sticky h-fit top-7">
+      <div className="grid grid-cols-12 gap-10">
+        <div
+          className={`border border-[#E3E3E3] bg-white p-7 fixed bottom-20 left-5 md:sticky md:top-7 md:col-span-5 xl:col-span-4 overflow-hidden transition-all duration-300 ease-in-out md:w-auto md:h-fit z-30 ${
+            filterMenuOpen
+              ? "w-[280px] h-[514px] drop-shadow-lg"
+              : "w-0 h-0 !p-0 border-none"
+          }`}
+        >
           <h5 className="font-semibold text-2xl mb-10">Find Property</h5>
           <div className="mb-5">
             <Select
@@ -246,9 +267,9 @@ const AllListingProperties = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-12 md:col-span-7 xl:col-span-8">
           <div className="grid grid-cols-4 gap-5 mb-10">
-            <div className="col-span-3 relative">
+            <div className="col-span-2 xl:col-span-3 relative">
               <CiSearch
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500"
                 size={24}
@@ -260,7 +281,7 @@ const AllListingProperties = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </div>
-            <div>
+            <div className="col-span-2 xl:col-span-1">
               <Select
                 placeholder="Property Type"
                 isSearchable={false}
@@ -271,7 +292,7 @@ const AllListingProperties = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+          <div className="grid lg:grid-cols-2 gap-x-8 gap-y-6">
             {isLoading && <PropertySkeleton cards={8} />}
             {data &&
               data.map((property: TProperty) => (
@@ -300,11 +321,16 @@ const AllListingProperties = () => {
           )}
         </div>
       </div>
+      <CgMenuBoxed
+        size={48}
+        className="fixed bottom-5 left-5 bg-white p-2 rounded-full text-red-500 drop-shadow md:hidden"
+        onClick={() => setFilterMenuOpen(!filterMenuOpen)}
+      />
     </Wrapper>
   );
 };
 
-const Wrapper = tw.div`container mx-auto mt-[148px]`;
+const Wrapper = tw.div`container mx-auto mt-[148px] relative`;
 
 const Input = tw.input`w-full border border-[#e3e3e3] outline-none h-full px-10`;
 

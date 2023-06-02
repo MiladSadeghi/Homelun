@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import Header from "./components/Header";
-import TopAgents from "./components/TopAgents";
 import axios from "axios";
 import { TAgent } from "../../types/agent";
 import { TProperty } from "../../types/property";
+import TopAgents from "./components/TopAgents";
 import LatestProperty from "./components/LatestProperty";
-import OurTeam from "../../components/OurTeam/OurTeam";
+import OurTeam from "../../components/OurTeam";
 
 type THomeData = {
   agents: {
