@@ -1,20 +1,32 @@
 import {model, Schema} from "mongoose";
 
-const TourModel = Schema({
-    name: String,
-    email: {
-        type: String,
-        unique: true
+const TourModel = Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    request: String,
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
     agent: {
-        type: Schema.Types.ObjectId,
-        ref: "agent",
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "agent",
     },
     property: {
-        type: Schema.Types.ObjectId,
-        ref: "property",
-    }
-}, {timestamp: true})
+      type: Schema.Types.ObjectId,
+      ref: "property",
+      required: true,
+    },
+  },
+  { timestamp: true }
+);
 
 export default model("tour", TourModel)
