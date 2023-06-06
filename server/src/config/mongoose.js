@@ -7,11 +7,6 @@ mongoose.connection.on("error", (err) => {
   process.exit(-1);
 });
 
-// print mongoose logs in dev env
-if (process.env.NODE_ENV === "development") {
-  mongoose.set("debug", true);
-}
-
 export const connect = () => {
   mongoose
     .connect(process.env.MONGO_URI, {

@@ -9,28 +9,44 @@ import {corsOptions} from "./corsConfig.js";
 import agents from "../api/routes/agents.route.js";
 import properties from "../api/routes/properties.route.js";
 import forms from "../api/routes/forms.route.js";
+import cookieParser from "cookie-parser";
+import sessions from "express-session";
+import { config } from "dotenv";
+import insightRouter from "../api/routes/insight.route.js";
 
 const app = express();
-
+config();
 // request logging. dev: console | production: file
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // secure apps by setting various HTTP headers
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // mount api
+app.use(
+  sessions({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+    resave: false,
+  })
+);
 app.use("/api/status", (req, res) => res.send("OK"));
 app.use("/api/home", homeRoute);
 app.use("/api/agents", agents);
 app.use("/api/properties", properties);
 app.use("/api", forms);
+app.use("/api/insight", insightRouter);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(converter);
