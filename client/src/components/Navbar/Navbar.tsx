@@ -2,7 +2,8 @@ import {Link, useLocation} from "react-router-dom";
 import Logo from "../Logo/Logo";
 import {styled} from "styled-components";
 import tw from "twin.macro";
-import {GiHamburgerMenu, IoMdClose} from "react-icons/all";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdClose } from "react-icons/io";
 import {useEffect, useState} from "react";
 
 function Navbar() {

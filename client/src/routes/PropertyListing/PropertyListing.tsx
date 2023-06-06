@@ -35,7 +35,7 @@ const PropertyListing = () => {
     resolver: zodResolver(takeTourForm),
   });
 
-  const { isLoading, data, isError } = useQuery({
+  const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ["property", { slug }],
     queryFn: () =>
       axios
@@ -90,6 +90,14 @@ const PropertyListing = () => {
       document.body.style.paddingRight = "0px";
     };
   }, [galleryModalOpen]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      axios.get(`insight/property/${data?.agent._id}/${data?._id}`, {
+        withCredentials: true,
+      });
+    }
+  }, [isSuccess]);
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);

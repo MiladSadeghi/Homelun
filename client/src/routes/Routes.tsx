@@ -1,4 +1,3 @@
-import { AnimatePresence } from "framer-motion";
 import { Route, Routes as RouterRoutes, useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
 import Home from "./Home";
@@ -22,23 +21,21 @@ function Routes() {
   }, [location]);
 
   return (
-    <AnimatePresence mode="wait">
-      <RouterRoutes location={location}>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="about-us" element={<AboutUs />} />
-          <Route path="agents" element={<Agents />} />
-          <Route path="agents/:slug" element={<Agent />} />
-          <Route path="contact-us" element={<ContactUs />} />
-          <Route path="faqs" element={<Faqs />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="terms-of-service" element={<Terms />} />
-          <Route path="listings" element={<AllListingProperties />} />
-          <Route path="listings/:slug" element={<PropertyListing />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </RouterRoutes>
-    </AnimatePresence>
+    <RouterRoutes location={location}>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about-us" element={<AboutUs />} />
+        <Route path="agents" element={<Agents />} />
+        <Route path="agents/:slug" element={<Agent />} />
+        <Route path="contact-us" element={<ContactUs />} />
+        <Route path="faqs" element={<Faqs />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="terms-of-service" element={<Terms />} />
+        <Route path="listings" element={<AllListingProperties />} />
+        <Route path="listings/:slug" element={<PropertyListing />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </RouterRoutes>
   );
 }
 

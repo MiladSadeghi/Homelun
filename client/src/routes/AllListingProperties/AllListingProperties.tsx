@@ -10,11 +10,8 @@ import { TProperty } from "../../types/property";
 import { PropertyCard, PropertySkeleton } from "../../components/PropertyCard";
 import useDebounce from "../../hooks/useDebounce";
 import ReactPaginate from "react-paginate";
-import {
-  CgMenuBoxed,
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-} from "react-icons/all";
+import { CgMenuBoxed } from "react-icons/cg";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import useMediaQuery from "../../hooks/useMediaQuery.ts";
 
 type TPropertyType = {
