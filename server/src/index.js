@@ -6,7 +6,7 @@ import { config } from "dotenv";
 config();
 connect();
 
-const PORT = process.env.PORT || 6321;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () =>
   logger.info(`server started on port ${process.env.NODE_ENV}`)

@@ -30,13 +30,20 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-// mount api
+const isProduction = process.env.NODE_ENV === "production";
+const isCookieSecure = isProduction ? true : false;
+const sameSiteAttribute = isProduction ? "None" : "Lax";
+
+app.set("trust proxy", 1);
 app.use(
   sessions({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
+      secure: isCookieSecure,
+      sameSite: sameSiteAttribute,
+      httpOnly: true,
     },
     resave: false,
   })
