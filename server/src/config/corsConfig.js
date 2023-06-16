@@ -1,13 +1,7 @@
 let whitelist = [
   "http://localhost:5173",
-  "http://localhost:5174",
-  "https://homelun.miladsdgh.ir",
-  "http://localhost",
-  "http://192.168.1.2:5173",
-  "http://192.168.1.2:5174",
-  "http://192.168.1.5:5173",
-  "http://192.168.1.5",
   "https://homelun.miladsdgh.ir/",
+  "http://localhost:4173",
 ];
 export const corsOptions = {
   credentials: true,
